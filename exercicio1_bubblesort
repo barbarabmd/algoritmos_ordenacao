@@ -1,0 +1,48 @@
+// 1.Faça um programa que receba valores aleatórios e diferentes em um vetor de inteiros de 6 posições 
+// e implemente o bubble sort em uma função para ordenar este vetor.
+
+
+#include <stdio.h> //biblioteca padrão de entrada/saída.
+
+//função para realizar o bubbleSort:
+void bubbleSort(int vetor[], int n) { //recebemos o vetor e seu tamanho n;
+    int i, aux, continua; //variáveis auxiliares para o processo de ordenação;
+    
+    do {
+        continua = 0; //reseta a variável "continua" para verificar se houve troca;
+        for (i = 0; i < n - 1; i++) { //percorre o vetor até a penúltima posição;
+            if (vetor[i] > vetor[i + 1]) { //compara o elemento atual com o próximo;
+                // realização da troca dos elementos, usando a variável auxiliar "aux":
+                aux = vetor[i]; //aux recebe o valor i do vetor;
+                vetor[i] = vetor[i + 1]; //valor i será valor da posição seguinte, i+1;
+                vetor[i + 1] = aux; //valor salvo em "aux" é atribuído à posição i + 1 do vetor;
+                continua = 1; //marca que houve uma troca.
+            }
+        }
+    } while (continua); //continua o processo até que não haja mais trocas.
+}
+
+int main() { //início da função main (a principal);
+    int i; //variável contador;
+    int vetor[6]; //declaração de um vetor de inteiros com 6 posições;
+
+    //print de mensagem pedindo ao usuário que insira 6 valores
+    printf("insira 6 valores inteiros, aleatorios e diferentes:\n");
+
+    //laço para capturar os 6 valores do usuário:
+    for (i = 0; i < 6; i++) { //laço for que será executado 6 vezes (de 0 até 5) para preencher o vetor com os valores;
+        printf("Valor %d: ", i + 1); //mensagem pedindo o valor de cada posição do vetor;
+        scanf("%d", &vetor[i]); //lê o número dado pelo usuário e armazena-o na posição i do vetor.
+    }
+
+    //chama a função bubbleSort para ordenar os valores do vetor:
+    bubbleSort(vetor, 6);
+
+    //exibição dos valores ordenados:
+    printf("\nvalores ordenados:\n"); 
+    for (i = 0; i < 6; i++) { //laço for que percorre o vetor ordenado para exibir os valores na tela;
+        printf("valor %d: %d\n", i + 1, vetor[i]); //exibição posição do vetor (i + 1) e posição i no vetor.
+    }
+
+    return 0; //fim da função main, retornando o valor 0. programa executado com sucesso!
+}
