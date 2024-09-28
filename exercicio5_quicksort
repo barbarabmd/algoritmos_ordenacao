@@ -1,0 +1,71 @@
+// 5.Faça um programa que receba valores aleatórios e diferentes em um vetor de inteiros de 6 posições 
+// e implemente o quick sort em uma função para ordenar este vetor.
+
+
+#include <stdio.h> //biblioteca padrão de entrada e saída.
+#include <stdlib.h> //biblioteca padrão de funções utilitárias.
+
+//função que realiza a troca entre dois elementos de um vetor:
+void troca(int *vetor, int valor1, int valor2) { 
+    int auxiliar = vetor[valor1]; //armazena temporariamente o valor do elemento1;
+    vetor[valor1] = vetor[valor2]; //atribui o valor do elemento2 à posição do elemento1;
+    vetor[valor2] = auxiliar; //atribui o valor temporário do elemento1 à posição do elemento2.
+}
+
+//função que parte o vetor e retorna o índice do pivô:
+int partir(int *vetor, int inicio, int fim) {
+    int pivo = vetor[fim]; //define o último elemento como pivô;
+    int pivoIndice = inicio; //inicializa o índice do pivô no início;
+
+    //percorre o vetor do início até o penúltimo elemento:
+    for (int i = inicio; i < fim; i++) {
+        if (vetor[i] <= pivo) { //se o elemento atual é menor ou igual ao pivô...
+            troca(vetor, i, pivoIndice); //troca o elemento atual com o elemento na posição do pivô;
+            pivoIndice++; //incrementa o índice do pivô.
+        }
+    }
+
+    troca(vetor, pivoIndice, fim); //troca o pivô (que ta no final) com o elemento no índice do pivô;
+    return pivoIndice; //retorna o índice final do pivô.
+}
+
+//função que escolhe um pivô aleatório para melhorar o desempenho do quickSort:
+int partirRand(int *vetor, int inicio, int fim) {
+    int pivoIndice = (rand() % (fim - inicio + 1)) + inicio; //escolhe um índice aleatório entre 'inicio' e 'fim';
+    troca(vetor, pivoIndice, fim); //troca o pivô aleatório com o último elemento;
+    return partir(vetor, inicio, fim); //chama a função partir com o pivô já colocado no final.
+}
+
+//função que implementa o algoritmo quickSort
+void quickSort(int *vetor, int inicio, int fim) {
+    if (inicio < fim) {  //se o "subvetor" tem mais de um elemento...
+        int pivoIndice = partirRand(vetor, inicio, fim); //parte o vetor e obtém o índice do pivô;
+        quickSort(vetor, inicio, pivoIndice - 1); //chama recursivamente o quickSort na parte antes do pivô;
+        quickSort(vetor, pivoIndice + 1, fim); //chama recursivamente o quickSort na parte depois do pivô.
+    }
+}
+
+int main() { //início da função main (a principal);
+    int i; //variável contador;
+    int vetor[6]; //declaração de um vetor de inteiros com 6 posições;
+
+    //print de mensagem pedindo ao usuário que insira 6 valores
+    printf("insira 6 valores inteiros, aleatorios e diferentes:\n");
+
+    //laço para capturar os 6 valores do usuário:
+    for (i = 0; i < 6; i++) { //laço for que será executado 6 vezes (de 0 até 5) para preencher o vetor com os valores;
+        printf("Valor %d: ", i + 1); //mensagem pedindo o valor de cada posição do vetor;
+        scanf("%d", &vetor[i]); //lê o número dado pelo usuário e armazena-o na posição i do vetor.
+    }
+
+    //chama a função quickSort para ordenar os valores do vetor:
+    quickSort(vetor, 0, 5);
+
+    //exibição dos valores ordenados:
+    printf("\nvalores ordenados:\n"); 
+    for (i = 0; i < 6; i++) { //laço for que percorre o vetor ordenado para exibir os valores na tela;
+        printf("valor %d: %d\n", i + 1, vetor[i]); //exibição posição do vetor (i + 1) e posição i no vetor.
+    }
+
+    return 0; //fim da função main, retornando o valor 0. programa executado com sucesso!
+}
