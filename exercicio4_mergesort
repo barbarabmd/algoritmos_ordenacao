@@ -1,0 +1,80 @@
+// 4.Faça um programa que receba valores aleatórios e diferentes em um vetor de inteiros de 6 posições 
+// e implemente o merge sort em uma função para ordenar este vetor.
+
+
+#include <stdio.h> //biblioteca padrão de entrada e saída.
+
+void merge(int vetor[6], int n) { // Define a função 'merge' que aceita um vetor de inteiros e seu tamanho n.
+    int meio = n / 2; //calcula o índice do meio do vetor;
+    int i = 0, j = meio, k = 0; //variáveis: 'i' para o início da metade1; 'j' para o início da metade2 e 'k' para o índice do vetor AUXiliar.
+    int aux[n]; //vetor AUXiliar do mesmo tamanho do vetor original para armazenar os elementos ordenados temporariamente.
+
+    //enquanto tem elementos nas duas as metades:
+    while (i < meio && j < n) {
+        //se elemento da metade1 é menor ou igual ao elemento da metade2:
+        if (vetor[i] <= vetor[j]) {
+            aux[k] = vetor[i++]; //adiciona o elemento da metade1 ao vetor auxiliar e incrementa 'i';
+        } else {
+            aux[k] = vetor[j++]; //caso contrário, adiciona o elemento da metade2 e incrementa 'j';
+        }
+        k++; //incrementa o índice do vetor auxiliar (k).
+    }
+
+    //se os elementos da metade1 foram copiados, copia os que faltam da metade2:
+    if (i == meio) {
+        while (j < n) {
+            aux[k++] = vetor[j++]; //copia os elementos que faltam da metade2 para o vetor auxiliar;
+        }
+    } else { //se ainda tem elementos na metade1, vai copia-los para o vetor auxiliar:
+        while (i < meio) {
+            aux[k++] = vetor[i++]; //copia os elementos quem faltam da metade1.
+        }
+    }
+
+    //copia todos os elementos do vetor auxiliar de volta para o vetor original:
+    for (i = 0; i < n; i++) {
+        vetor[i] = aux[i]; //substitui os elementos do vetor original pelos do vetor auxiliar.
+    }
+}
+
+void mergeSort(int *vetor, int tam) { //define a função 'mergeSort' que aceita um ponteiro para um vetor e seu tamanho.
+    int meio = tam / 2; //calcula o índice do meio do vetor.
+    
+    //se o tamanho do vetor for maior que 1, continua a divisão:
+    if (tam > 1) {
+        mergeSort(vetor, meio); //chama recursivamente mergeSort na metade1 do vetor;
+        mergeSort(vetor + meio, tam - meio); //chama recursivamente mergeSort na metade2 do vetor.
+        merge(vetor, tam); //depois de dividir, chama a função merge para ordenar e combinar as duas metades.
+    }
+}
+
+
+int main() { //início da função main (a principal);
+    int i; //variável contador;
+    int vetor[6]; //declaração de um vetor de inteiros com 6 posições;
+
+    //print de mensagem pedindo ao usuário que insira 6 valores
+    printf("insira 6 valores inteiros, aleatorios e diferentes:\n");
+
+    //laço para capturar os 6 valores do usuário:
+    for (i = 0; i < 6; i++) { //laço for que será executado 6 vezes (de 0 até 5) para preencher o vetor com os valores;
+        printf("Valor %d: ", i + 1); //mensagem pedindo o valor de cada posição do vetor;
+        scanf("%d", &vetor[i]); //lê o número dado pelo usuário e armazena-o na posição i do vetor.
+    }
+
+    //chama a função mergeSort para ordenar os valores do vetor:
+    mergeSort(vetor, 6);
+
+    //exibição dos valores ordenados:
+    printf("\nvalores ordenados:\n"); 
+    for (i = 0; i < 6; i++) { //laço for que percorre o vetor ordenado para exibir os valores na tela;
+        printf("valor %d: %d\n", i + 1, vetor[i]); //exibição posição do vetor (i + 1) e posição i no vetor.
+    }
+
+    return 0; //fim da função main, retornando o valor 0. programa executado com sucesso!
+}
+
+
+
+
+
